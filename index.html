@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New Era RTC — Technology Support Request</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0E2F42;--teal:#1A7A6E;--teal2:#14655A;--gold:#D4A843;--off:#F7F9FA;--border:#DDE3E8;--text:#1C2B3A;--muted:#6B7A8A;--error:#C0392B}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--off);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+.site-header{background:var(--navy);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:0;z-index:100}
+.header-brand{display:flex;align-items:center;gap:12px}
+.header-badge{background:var(--teal);color:white;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:3px}
+.header-title{color:white;font-size:15px;font-weight:500}
+.header-divider{width:1px;height:20px;background:rgba(255,255,255,.2)}
+.header-sub{color:rgba(255,255,255,.55);font-size:13px}
+.hero{background:linear-gradient(135deg,var(--navy) 0%,#0B3D54 50%,var(--teal2) 100%);padding:3.5rem 2rem 3rem;text-align:center}
+.hero-eyebrow{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem}
+.hero h1{font-family:'DM Serif Display',serif;font-size:clamp(1.75rem,4vw,2.5rem);color:white;line-height:1.15;margin-bottom:1rem}
+.hero p{color:rgba(255,255,255,.7);font-size:15px;max-width:540px;margin:0 auto;line-height:1.6}
+.notice{background:rgba(212,168,67,.12);border-left:4px solid var(--gold);padding:.85rem 1.5rem;margin:2rem auto 0;max-width:680px;border-radius:0 6px 6px 0;display:flex;align-items:flex-start;gap:10px;text-align:left}
+.notice p{font-size:13px;color:rgba(255,255,255,.8);line-height:1.55}
+.notice strong{color:white}
+main{flex:1;padding:2.5rem 1rem 4rem;max-width:720px;margin:0 auto;width:100%}
+.card{background:white;border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.06),0 8px 24px rgba(14,47,66,.07);overflow:hidden}
+.card-section{padding:1.75rem 2rem;border-bottom:1px solid var(--border)}
+.card-section:last-child{border-bottom:none}
+.section-label{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:1.25rem;display:flex;align-items:center;gap:8px}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.field{margin-bottom:1.25rem}
+.field:last-child{margin-bottom:0}
+label{display:block;font-size:13px;font-weight:500;color:var(--text);margin-bottom:.4rem}
+label .req{color:var(--error);margin-left:2px}
+label .hint{font-weight:400;color:var(--muted);font-size:12px;display:block;margin-top:2px}
+input[type=text],input[type=email],input[type=tel],select,textarea{width:100%;padding:.65rem .85rem;border:1.5px solid var(--border);border-radius:6px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);background:white;transition:border-color .15s,box-shadow .15s;appearance:none;-webkit-appearance:none}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px rgba(26,122,110,.12)}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B7A8A' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .9rem center;padding-right:2.5rem;cursor:pointer}
+textarea{resize:vertical;min-height:100px;line-height:1.5}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:520px){.two-col{grid-template-columns:1fr}}
+.priority-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem}
+@media(max-width:480px){.priority-grid{grid-template-columns:1fr 1fr}}
+.priority-pill input[type=radio]{display:none}
+.priority-pill label{display:block;text-align:center;padding:.55rem .5rem;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;transition:all .15s;font-size:13px;font-weight:500;margin:0}
+.priority-pill label .pill-tier{font-size:11px;font-weight:700;display:block;letter-spacing:.06em}
+.priority-pill label .pill-desc{font-size:11px;color:var(--muted);font-weight:400;display:block;margin-top:1px}
+.p1 input:checked+label{border-color:#C0392B;background:#fdf1f0}.p1 label .pill-tier{color:#C0392B}
+.p2 input:checked+label{border-color:#D4A843;background:#fdf8ec}.p2 label .pill-tier{color:#B8882A}
+.p3 input:checked+label{border-color:var(--teal);background:rgba(26,122,110,.07)}.p3 label .pill-tier{color:var(--teal)}
+.p4 input:checked+label{border-color:#708090;background:#f4f6f8}.p4 label .pill-tier{color:#708090}
+.submit-bar{padding:1.5rem 2rem;background:var(--off);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.submit-note{font-size:12px;color:var(--muted);line-height:1.5;max-width:340px}
+.submit-note strong{color:var(--text)}
+.btn-submit{background:var(--teal);color:white;border:none;padding:.8rem 2rem;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:background .15s,transform .1s;white-space:nowrap;display:flex;align-items:center;gap:8px}
+.btn-submit:hover{background:var(--teal2);transform:translateY(-1px)}
+.btn-submit:disabled{background:#b0c4c2;cursor:not-allowed;transform:none}
+.spinner{display:none;width:16px;height:16px;border:2px solid rgba(255,255,255,.4);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.field-error{display:none;font-size:12px;color:var(--error);margin-top:.3rem}
+input.invalid,select.invalid,textarea.invalid{border-color:var(--error);box-shadow:0 0 0 3px rgba(192,57,43,.1)}
+#success-screen{display:none;padding:4rem 2rem;text-align:center}
+.success-icon{width:64px;height:64px;background:rgba(26,122,110,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:28px}
+#success-screen h2{font-family:'DM Serif Display',serif;font-size:1.75rem;color:var(--navy);margin-bottom:.75rem}
+#success-screen p{color:var(--muted);font-size:15px;line-height:1.6;max-width:440px;margin:0 auto .5rem}
+.ticket-ref{display:inline-block;background:var(--off);border:1px solid var(--border);border-radius:6px;padding:.4rem .9rem;font-size:13px;font-weight:600;color:var(--teal);margin-top:.5rem}
+.site-footer{background:var(--navy);padding:1.25rem 2rem;text-align:center}
+.site-footer p{font-size:12px;color:rgba(255,255,255,.4);line-height:1.5}
+.site-footer a{color:rgba(255,255,255,.55);text-decoration:none}
+/* ===== Attachments (added) ===== */
+input[type=file]{display:none}
+.file-drop{display:flex;align-items:center;gap:10px;padding:.85rem 1rem;border:1.5px dashed var(--border);border-radius:8px;cursor:pointer;color:var(--muted);font-size:14px;transition:border-color .15s,background .15s,color .15s}
+.file-drop:hover,.file-drop.drag{border-color:var(--teal);background:rgba(26,122,110,.05);color:var(--teal)}
+.file-drop-icon{font-size:18px;flex-shrink:0}
+.file-list{list-style:none;margin:.6rem 0 0;padding:0;display:flex;flex-direction:column;gap:.4rem}
+.file-list li{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--off);border:1px solid var(--border);border-radius:6px;padding:.45rem .7rem;font-size:13px}
+.file-list .fl-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.file-list .fl-meta{color:var(--muted);font-size:12px;margin-left:6px}
+.file-list button{background:none;border:none;color:var(--error);cursor:pointer;font-size:16px;line-height:1;padding:0 4px;flex-shrink:0}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-brand">
+    <span class="header-badge">New Era RTC</span>
+    <div class="header-divider"></div>
+    <span class="header-title">Technology Support Portal</span>
+  </div>
+  <span class="header-sub">Powered by La Gente Consulting</span>
+</header>
+<div class="hero">
+  <p class="hero-eyebrow">PlanStreet · Microsoft 365 · Adobe · SharePoint</p>
+  <h1>Submit a Technology<br>Support Request</h1>
+  <p>All requests are reviewed by Chermaene Mathis (Director of Quality Assurance) before being routed to the La Gente technology team.</p>
+  <div class="notice">
+    <span style="font-size:16px;flex-shrink:0;margin-top:1px">ℹ️</span>
+    <p><strong>PlanStreet changes are completed in sandbox first</strong> and pushed to production only after QA approval and La Gente sign-off. Allow 24–72 hours depending on priority.</p>
+  </div>
+</div>
+<main>
+  <div class="card">
+    <div id="success-screen">
+      <div class="success-icon">✅</div>
+      <h2>Request Submitted</h2>
+      <p>Your request is pending QA review by Chermaene Mathis. You will receive an email confirmation shortly.</p>
+      <p>Questions? <a href="mailto:ne_support@lagenteshequity.com" style="color:var(--teal)">ne_support@lagenteshequity.com</a></p>
+      <span class="ticket-ref" id="ticket-ref-display"></span>
+    </div>
+    <form id="wo-form" novalidate>
+      <div class="card-section">
+        <div class="section-label">Your Information</div>
+        <div class="two-col">
+          <div class="field">
+            <label for="requester_name">Full Name <span class="req">*</span></label>
+            <input type="text" id="requester_name" name="ne_requester_name" placeholder="First Last" required>
+            <span class="field-error" id="err-name">Please enter your full name.</span>
+          </div>
+          <div class="field">
+            <label for="department">Department <span class="req">*</span></label>
+            <select id="department" name="ne_department" required>
+              <option value="">Select department…</option>
+              <option value="CLINICAL">Clinical</option>
+              <option value="DIRECT_CARE">Direct Care</option>
+              <option value="MEDICAL">Medical / Nursing</option>
+              <option value="ADMIN">Administrative</option>
+              <option value="COMPLIANCE">Compliance</option>
+              <option value="EXECUTIVE">Executive / Leadership</option>
+              <option value="IT">IT / Systems</option>
+              <option value="EDUCATION">Education</option>
+              <option value="OTHER">Other</option>
+            </select>
+            <span class="field-error" id="err-dept">Please select your department.</span>
+          </div>
+        </div>
+        <div class="two-col">
+          <div class="field">
+            <label for="email">New Era Email Address <span class="req">*</span></label>
+            <input type="email" id="email" name="email" placeholder="you@newerartc.com" required>
+            <span class="field-error" id="err-email">Please enter a valid email.</span>
+          </div>
+          <div class="field">
+            <label for="phone">Phone Number <span class="hint">Optional</span></label>
+            <input type="tel" id="phone" name="phone" placeholder="(xxx) xxx-xxxx">
+          </div>
+        </div>
+      </div>
+      <div class="card-section">
+        <div class="section-label">Service Type</div>
+        <div class="field">
+          <label for="service_type">What type of help do you need? <span class="req">*</span></label>
+          <select id="service_type" name="ne_service_type" required>
+            <option value="">Select service type…</option>
+            <optgroup label="PlanStreet">
+              <option value="PLANSTREET_FORM">[PLANSTREET] Form Help or Change Request</option>
+              <option value="PLANSTREET_BUG">[PLANSTREET] Bug or Error</option>
+            </optgroup>
+            <optgroup label="Microsoft 365">
+              <option value="M365">[M365] Email, Teams, or OneDrive</option>
+              <option value="SHAREPOINT">[SHAREPOINT] SharePoint</option>
+              <option value="USER_ACCESS">[USER ACCESS] New User, Termination, or Change</option>
+            </optgroup>
+            <optgroup label="Other">
+              <option value="ADOBE">[ADOBE] Adobe Acrobat</option>
+              <option value="COMPLIANCE">[COMPLIANCE] Compliance Documentation</option>
+              <option value="LICENSING">[LICENSING] Add or Remove a License</option>
+              <option value="ELITE">[ELITE] Regulatory or Breach Response</option>
+              <option value="HELPDESK">[HELPDESK] General Help / Not Sure</option>
+            </optgroup>
+          </select>
+          <span class="field-error" id="err-service">Please select a service type.</span>
+        </div>
+        <div class="field" id="ps-field" style="display:none">
+          <label for="form_name">PlanStreet Form Name <span class="hint">e.g. Service Plan, Progress Note</span></label>
+          <input type="text" id="form_name" name="ne_form_name" placeholder="e.g. Service Plan">
+        </div>
+      </div>
+      <div class="card-section">
+        <div class="section-label">Priority Level</div>
+        <div class="priority-grid">
+          <div class="priority-pill p1"><input type="radio" name="hs_ticket_priority" id="p1" value="URGENT"><label for="p1"><span class="pill-tier">P1 — Critical</span><span class="pill-desc">System down or PHI risk</span></label></div>
+          <div class="priority-pill p2"><input type="radio" name="hs_ticket_priority" id="p2" value="HIGH"><label for="p2"><span class="pill-tier">P2 — High</span><span class="pill-desc">Multiple staff affected</span></label></div>
+          <div class="priority-pill p3"><input type="radio" name="hs_ticket_priority" id="p3" value="MEDIUM" checked><label for="p3"><span class="pill-tier">P3 — Medium</span><span class="pill-desc">Single user or standard</span></label></div>
+          <div class="priority-pill p4"><input type="radio" name="hs_ticket_priority" id="p4" value="LOW"><label for="p4"><span class="pill-tier">P4 — Low</span><span class="pill-desc">Non-urgent / question</span></label></div>
+        </div>
+      </div>
+      <div class="card-section">
+        <div class="section-label">Request Details</div>
+        <div class="field">
+          <label for="subject">Request Title <span class="req">*</span><span class="hint">Short summary like an email subject line</span></label>
+          <input type="text" id="subject" name="subject" placeholder="e.g. Service Plan — Goals field too short" required>
+          <span class="field-error" id="err-subject">Please enter a request title.</span>
+        </div>
+        <div class="field">
+          <label for="content">Describe Your Request <span class="req">*</span><span class="hint">1. What system or form? 2. What are you trying to do? 3. What's happening instead?</span></label>
+          <textarea id="content" name="content" rows="5" placeholder="Describe in as much detail as possible…" required></textarea>
+          <span class="field-error" id="err-content">Please describe your request.</span>
+        </div>
+        <!-- ===== Attachments (added) — placed right after "Describe Your Request" ===== -->
+        <div class="field">
+          <label for="attachments">Attachments <span class="hint">Screenshots, PDFs, or documents · Max 10&nbsp;MB each, up to 5 files</span></label>
+          <label class="file-drop" for="attachments" id="file-drop">
+            <span class="file-drop-icon">📎</span>
+            <span class="file-drop-text">Click to choose files or drag them here</span>
+          </label>
+          <input type="file" id="attachments" name="attachments" multiple accept=".png,.jpg,.jpeg,.gif,.webp,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv">
+          <ul class="file-list" id="file-list"></ul>
+          <span class="field-error" id="err-files">A file is over 10&nbsp;MB, or you selected more than 5 files. Please adjust your selection.</span>
+        </div>
+        <!-- ===== /Attachments ===== -->
+        <div class="field">
+          <label for="compliance_driver">Compliance or Regulatory Requirement?</label>
+          <select id="compliance_driver" name="ne_compliance_driver">
+            <option value="NONE">Not applicable</option>
+            <option value="DFPS">DFPS CCL inspection or audit</option>
+            <option value="TXHHS">Texas HHS requirement</option>
+            <option value="HIPAA">HIPAA / 42 CFR Part 2</option>
+            <option value="CARF">CARF accreditation</option>
+            <option value="GRANT">Grant or contract requirement</option>
+            <option value="TRAINING">Staff training or certification</option>
+            <option value="OTHER">Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="submit-bar">
+        <p class="submit-note"><strong>What happens next?</strong> Chermaene Mathis will review and approve before routing to the La Gente technology team.</p>
+        <button type="submit" class="btn-submit" id="submit-btn">
+          <span id="btn-text">Submit to QA Review</span>
+          <span class="spinner" id="btn-spinner"></span>
+        </button>
+      </div>
+    </form>
+  </div>
+</main>
+<footer class="site-footer">
+  <p>New Era Residential Treatment Centers · Technology Support Portal<br>
+  Managed by <a href="mailto:ne_support@lagenteshequity.com">La Gente Consulting, LLC</a> · SDVOSB · <a href="mailto:ne_support@lagenteshequity.com">ne_support@lagenteshequity.com</a></p>
+</footer>
+<script>
+/* =========================================================================
+   POWER AUTOMATE ENDPOINT
+   -------------------------------------------------------------------------
+   IMPORTANT: This MUST be the "Anyone" version of the trigger URL.
+   In the flow trigger set "Who can trigger the flow?" = Anyone, then Save.
+   The regenerated URL will END WITH:  &sp=/triggers/manual/run&sv=1.0&sig=...
+   Paste that full URL on the line below (replacing this placeholder).
+   The URL below has NO sig= and will return 401 until you switch to Anyone.
+   ========================================================================= */
+const FLOW_URL = 'https://default279f2684c44f4724a9ef5aee1398fa.b0.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/42fac4744b9d49238df9fa3a158b28ce/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=7u1CrJYUBQBDdirv6dtMOOfWZFPMR3lXgonNQJQ73Qg';
+
+const MAX_FILE_BYTES = 10 * 1024 * 1024; // 10 MB per file
+const MAX_FILES = 5;
+let selectedFiles = [];
+
+/* Show/hide the PlanStreet form-name field (unchanged) */
+document.getElementById('service_type').addEventListener('change',function(){document.getElementById('ps-field').style.display=this.value.startsWith('PLANSTREET')?'block':'none'});
+
+/* ===== Attachments: pick, drag/drop, list, remove (multiple files) ===== */
+const fileInput=document.getElementById('attachments');
+const dropZone=document.getElementById('file-drop');
+const fileListEl=document.getElementById('file-list');
+const errFiles=document.getElementById('err-files');
+
+fileInput.addEventListener('change',e=>addFiles(e.target.files));
+['dragover','dragenter'].forEach(ev=>dropZone.addEventListener(ev,e=>{e.preventDefault();dropZone.classList.add('drag');}));
+['dragleave','drop'].forEach(ev=>dropZone.addEventListener(ev,e=>{e.preventDefault();dropZone.classList.remove('drag');}));
+dropZone.addEventListener('drop',e=>addFiles(e.dataTransfer.files));
+
+function addFiles(list){
+  errFiles.style.display='none';
+  for(const f of list){
+    if(selectedFiles.length>=MAX_FILES){errFiles.style.display='block';break;}
+    if(f.size>MAX_FILE_BYTES){errFiles.style.display='block';continue;}
+    if(selectedFiles.some(s=>s.name===f.name&&s.size===f.size))continue; // skip duplicates
+    selectedFiles.push(f);
+  }
+  renderFiles();
+  fileInput.value=''; // allow re-selecting a file after removal
+}
+
+function renderFiles(){
+  fileListEl.innerHTML='';
+  selectedFiles.forEach((f,i)=>{
+    const li=document.createElement('li');
+    const meta=f.size<1048576?(f.size/1024).toFixed(0)+' KB':(f.size/1048576).toFixed(1)+' MB';
+    const span=document.createElement('span');
+    span.className='fl-name';
+    span.textContent=f.name;
+    const m=document.createElement('span');m.className='fl-meta';m.textContent='('+meta+')';span.appendChild(m);
+    const btn=document.createElement('button');
+    btn.type='button';btn.textContent='×';btn.title='Remove';
+    btn.addEventListener('click',()=>{selectedFiles.splice(i,1);renderFiles();});
+    li.appendChild(span);li.appendChild(btn);
+    fileListEl.appendChild(li);
+  });
+}
+
+function fileToBase64(file){
+  return new Promise((resolve,reject)=>{
+    const reader=new FileReader();
+    reader.onload=()=>resolve({name:file.name,contentType:file.type||'application/octet-stream',size:file.size,contentBytes:reader.result.split(',')[1]});
+    reader.onerror=reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+/* ===== Validation (unchanged) ===== */
+function validate(){let ok=true;const fields=[{id:'requester_name',err:'err-name'},{id:'department',err:'err-dept'},{id:'email',err:'err-email'},{id:'service_type',err:'err-service'},{id:'subject',err:'err-subject'},{id:'content',err:'err-content'}];fields.forEach(({id,err})=>{const el=document.getElementById(id),e=document.getElementById(err);if(!el.value.trim()){el.classList.add('invalid');e.style.display='block';ok=false}else{el.classList.remove('invalid');e.style.display='none'}});const em=document.getElementById('email');if(em.value&&!/\S+@\S+\.\S+/.test(em.value)){em.classList.add('invalid');document.getElementById('err-email').style.display='block';ok=false}return ok}
+
+/* ===== Submit to Power Automate ===== */
+document.getElementById('wo-form').addEventListener('submit',async function(e){
+  e.preventDefault();
+  if(!validate()){window.scrollTo({top:0,behavior:'smooth'});return}
+  const btn=document.getElementById('submit-btn'),t=document.getElementById('btn-text'),sp=document.getElementById('btn-spinner');
+  btn.disabled=true;t.textContent='Submitting…';sp.style.display='block';
+  const fd=new FormData(this),d=Object.fromEntries(fd.entries()),p=document.querySelector('input[name="hs_ticket_priority"]:checked')?.value||'MEDIUM';
+  try{
+    const attachments=await Promise.all(selectedFiles.map(fileToBase64)); // [{name,contentType,size,contentBytes}]
+    const payload={subject:d.subject,content:d.content,priority:p,serviceType:d.ne_service_type,requesterName:d.ne_requester_name,requesterEmail:d.email,department:d.ne_department,formName:d.ne_form_name||'',complianceDriver:d.ne_compliance_driver||'NONE',attachments:attachments,source:'portal'};
+    /* Fire-and-forget: text/plain + no-cors so the browser sends the request without a
+       CORS preflight and without trying to read the (CORS-blocked) response. The flow
+       still receives the full JSON body, including the base64 attachments. */
+    await fetch(FLOW_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify(payload)});
+    document.getElementById('wo-form').style.display='none';
+    document.getElementById('success-screen').style.display='block';
+    document.getElementById('ticket-ref-display').style.display='none';
+    window.scrollTo({top:0,behavior:'smooth'});
+  }catch(err){
+    t.textContent='Submit to QA Review';sp.style.display='none';btn.disabled=false;
+    alert('Error: '+err.message+'\n\nEmail ne_support@lagenteshequity.com directly.');
+  }
+});
+</script>
+</body>
+</html>
